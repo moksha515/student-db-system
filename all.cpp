@@ -3,12 +3,14 @@ This program collects user data like the students name, the courses they have ta
 past semester and the grade for each class, and calculates their semester GPA. 
 
     TMRW's agenda :
-    - organize user info into a table ( or adjacent ) */
+    - ask AI what other features I should add -- brainstorm at least 5
+    */
   
 
 
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 const int COURSES_LENGTH = 10;
@@ -59,8 +61,11 @@ int main()
         outputFile << "Number of Courses : " << numCourses << "\n";
         
         cin.ignore(1000, '\n');
-
-
+        
+        outputFile << setw (12) << "Course Name:\t";
+        outputFile << setw(16) << "Course Credits: \t"; 
+        outputFile << setw(14) << "Course Grade: " << "\n";
+        
 
         int i = 0;
         
@@ -69,11 +74,11 @@ int main()
             cout << "\nPlease enter your Course Name ( or stop to finish ) : ";
             getline(cin, courseName);
 
-            outputFile << "Course Name : " << courseName << "\n";
+            
             
             cout << "\nPlease enter how many credits the Course is : ";
             cin >> numCredits;
-            outputFile << "Number of Credits : " << numCredits << "\n";
+            
             totalCredits += numCredits;
             
 
@@ -89,7 +94,7 @@ int main()
                 cin >> courseGrade;
             }
             
-            outputFile << "Course Grade : " << courseGrade << "\n";
+            
             
             if ( courseGrade > 89)
             {
@@ -117,11 +122,17 @@ int main()
             
             // This clears the newline character so the next getline() works correctly
             cin.ignore(1000, '\n');
-
-
+            
+            
+            outputFile << setw(9) << courseName << "\t";
+            outputFile << setw(12) << numCredits << "\t\t";
+            outputFile << setw(11) << courseGrade << "\n";
+            
+            
             courses[i] = courseName;
             credits[i] = numCredits;
             grades[i] = courseGrade;
+            
             i++;
 
 
