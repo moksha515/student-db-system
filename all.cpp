@@ -2,15 +2,19 @@
 This program collects user data like the students name, the courses they have taken the 
 past semester and the grade for each class, and calculates their semester GPA. 
 
-    TMRW's agenda :
-    - ask AI what other features I should add -- brainstorm at least 5
-    */
+Agenda :
+- use A/B/C & A-/B-/C- scales to calculate the GPA --> continue errors
+- ask for target GPA & calculate grades to get to target 
+- code organization --> add functions, more comments --> get progress
+
+*/
   
 
 
 #include <fstream>
 #include <iostream>
 #include <iomanip>
+#include <cctype>
 using namespace std;
 
 const int COURSES_LENGTH = 10;
@@ -23,10 +27,10 @@ int main()
     string userName;
     string filename = "file1.txt";
     string courseName = "abc";
+    string courseGrade;
     
     ofstream outputFile;
-    
-    int courseGrade = 0;
+
     int numCredits = 0;
     int totalCredits = 0;
     int numCourses = 0;
@@ -42,7 +46,7 @@ int main()
     //arrays will have 0 in first value, then from 1, the actual values will be there 
     string courses [COURSES_LENGTH];
     int credits [CREDITS_LENGTH] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    int grades [GRADES_LENGTH] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    string grades [GRADES_LENGTH];
     
     
     
@@ -81,41 +85,52 @@ int main()
             
             totalCredits += numCredits;
             
+            cin.ignore(1000, '\n');
+            
 
             
             
-            cout << "\nPlease enter the grade you got in that course : ";
-            cin >> courseGrade;
+            cout << "\nPlease enter the grade you got in that course ( as a Letter : A- / B+, etc): ";
+            getline (cin, courseGrade);
             
-            while (courseGrade > 100 || courseGrade < 0)
+
+            switch (courseGrade)
             {
-                cout << "Please re-enter grade as a number 0 - 100. ";
-                cout << "\nPlease enter the grade you got in that course : ";
-                cin >> courseGrade;
+                case 'A' : 
+                    qualityPts = 4.0;
+                    break;
+                case 'B' :
+                    qualityPts = 3.0;
+                    break;
+                case 'C' :
+                    qualityPts = 2.0;
+                    break;
+                case 'D' : 
+                    qualityPts = 1.0;
+                    break;
+                case 'F' : 
+                    qualityPts = 0.0;
+                    break;
+                default : 
+                    cout << "Please re-enter grade as a number 0 - 100. ";
+                    cout << "\nPlease enter the grade you got in that course : ";
+                    cin >> courseGrade;
             }
-            
-            
-            
-            if ( courseGrade > 89)
+
+            if (courseGrade.length() > 1)
             {
-                qualityPts = 4.0; // A 
+                char modifier = courseGrade[courseGrade.length()-1];
+                if (modifier == '+')
+                {
+                    qualityPts += 0.3;
+                }
+                else if ( modifier == '-')
+                {
+                    qualityPts -= 0.3;
+                }
             }
-            else if ( courseGrade > 79)
-            {
-                qualityPts = 3.0; // B 
-            }
-            else if ( courseGrade > 69)
-            {
-                qualityPts = 2.0; // C 
-            }
-            else if ( courseGrade > 59)
-            {
-                qualityPts = 1.0; // D
-            }
-            else
-            {
-                qualityPts = 0.0; // F
-            }
+
+
             
             sumQualityPts += (numCredits * qualityPts);
             
@@ -144,7 +159,7 @@ int main()
         cout << "\nSemester GPA : " << gpa << endl;
         outputFile << "\nSemester GPA : " << gpa << endl;
 
-        cout << "Credits array : ";
+        /*cout << "Credits array : ";
         // to print all of the users credit numbers 
         for (int c = 0; c < CREDITS_LENGTH; c++)
         {
@@ -172,7 +187,7 @@ int main()
             {
                 cout << courses[k] << " ";
             }
-        }
+        }*/
         
         outputFile.close();
     }
