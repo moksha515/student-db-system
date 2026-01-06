@@ -3,13 +3,9 @@ This program collects user data like the students name, the courses they have ta
 past semester and the grade for each class, and calculates their semester GPA. 
 
 Agenda :
-- use A/B/C & A-/B-/C- scales to calculate the GPA --> continue errors
-- ask for target GPA & calculate grades to get to target 
-- code organization --> add functions, more comments --> get progress
-
+- ask for target GPA & calculate grades to get to target --> display GPA --> ask for target GPA --> display all Grades  -> display grades for target GPA 
 */
   
-
 
 #include <fstream>
 #include <iostream>
@@ -75,7 +71,7 @@ int main()
         
         while (numCourses > i)
         {
-            cout << "\nPlease enter your Course Name ( or stop to finish ) : ";
+            cout << "\nPlease enter your Course Name : ";
             getline(cin, courseName);
 
             
@@ -93,8 +89,10 @@ int main()
             cout << "\nPlease enter the grade you got in that course ( as a Letter : A- / B+, etc): ";
             getline (cin, courseGrade);
             
+            char baseGrade = courseGrade[0];
+            
 
-            switch (courseGrade)
+            switch (baseGrade)
             {
                 case 'A' : 
                     qualityPts = 4.0;
@@ -112,7 +110,7 @@ int main()
                     qualityPts = 0.0;
                     break;
                 default : 
-                    cout << "Please re-enter grade as a number 0 - 100. ";
+                    cout << "Please re-enter grade as a letter from A-F ";
                     cout << "\nPlease enter the grade you got in that course : ";
                     cin >> courseGrade;
             }
@@ -136,7 +134,7 @@ int main()
             
             
             // This clears the newline character so the next getline() works correctly
-            cin.ignore(1000, '\n');
+            //cin.ignore(1000, '\n');
             
             
             outputFile << setw(9) << courseName << "\t";
@@ -159,7 +157,7 @@ int main()
         cout << "\nSemester GPA : " << gpa << endl;
         outputFile << "\nSemester GPA : " << gpa << endl;
 
-        /*cout << "Credits array : ";
+        cout << "Credits array : ";
         // to print all of the users credit numbers 
         for (int c = 0; c < CREDITS_LENGTH; c++)
         {
@@ -173,10 +171,7 @@ int main()
         // To print all of the users entered grades
         for (int g = 0; g < GRADES_LENGTH; g++)
         {
-            if (grades[g] != 0)
-            {
-                cout << grades [g] << ", ";
-            }
+            cout << grades [g] << " ";
         }
         
          cout << "Courses array : ";
@@ -187,7 +182,7 @@ int main()
             {
                 cout << courses[k] << " ";
             }
-        }*/
+        }
         
         outputFile.close();
     }
@@ -195,4 +190,8 @@ int main()
     {
         cout << "Could not open file" << filename;
     }
+    
+    return 0;
 }
+
+//new functions 
